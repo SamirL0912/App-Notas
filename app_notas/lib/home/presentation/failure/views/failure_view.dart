@@ -11,7 +11,7 @@ class ErrorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red[50],
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -21,7 +21,7 @@ class ErrorView extends StatelessWidget {
             
               Icon(
                 Icons.error_outline,
-                color: const Color.fromARGB(255, 44, 247, 4),
+                color: const Color.fromARGB(255, 159, 207, 162),
                 size: 100,
               ),
               SizedBox(height: 30),
@@ -31,7 +31,7 @@ class ErrorView extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 45, 253, 4),
+                  color: const Color.fromARGB(255, 159, 207, 162),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -50,7 +50,7 @@ class ErrorView extends StatelessWidget {
                 icon: Icon(Icons.refresh),
                 label: Text('Reintentar'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
+                  backgroundColor: const Color.fromARGB(255, 159, 207, 162),
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
               ),
