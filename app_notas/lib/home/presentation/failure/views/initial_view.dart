@@ -30,7 +30,7 @@ class _LoginViewState extends State<LoginView> {
       backgroundColor: Colors.blue[50],
       body: Center(
         child: Container(
-          width: 320, // Controlamos el ancho máximo del formulario
+          width: 320, 
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           decoration: BoxDecoration(
             color: Colors.white,
