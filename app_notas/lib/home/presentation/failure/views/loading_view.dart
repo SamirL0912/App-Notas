@@ -5,7 +5,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLoading = true; // Simula estado de carga
+  final bool isLoading = true; 
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent, // Fondo transparente
+      backgroundColor: Colors.transparent, 
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
