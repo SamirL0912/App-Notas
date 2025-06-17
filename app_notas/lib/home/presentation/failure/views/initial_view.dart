@@ -1,93 +1,78 @@
+import 'package:app_notas/home/presentation/failure/views/success_view.dart';
+import 'package:app_notas/models/autenticacion.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: LoginView(),
-    debugShowCheckedModeBanner: false,
-  ));
-}
-
 class LoginView extends StatefulWidget {
+  const LoginView({super.key});
+
   @override
-  _LoginViewState createState() => _LoginViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
-  final _userController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _authService = AuthService();
 
-  void _login() {
-    final user = _userController.text;
-    final password = _passwordController.text;
+  bool _loading = false;
+  String? _error;
 
-    print('Usuario: $user');
-    print('Contraseña: $password');
+  void _login() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+
+    try {
+      final user = await _authService.login(
+        _usernameController.text,
+        _passwordController.text,
+      );
+
+      if (user != null && mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => SuccessView(user: user)),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _error = e.toString().replaceAll("Exception: ", "");
+      });
+    } finally {
+      setState(() {
+        _loading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
-      body: Center(
-        child: Container(
-          width: 320, 
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                offset: Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.book, size: 60, color: Colors.blueAccent),
-              SizedBox(height: 16),
-              Text(
-                'Iniciar Sesión',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 24),
-              TextField(
-                controller: _userController,
-                decoration: InputDecoration(
-                  labelText: 'Nombre de usuario',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
-                ),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Contraseña',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
-                ),
-                obscureText: true,
-              ),
-              SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
+      appBar: AppBar(title: const Text('Login')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            if (_error != null)
+              Text(_error!, style: const TextStyle(color: Colors.red)),
+            TextField(
+              controller: _usernameController,
+              decoration: const InputDecoration(labelText: 'Usuario'),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(labelText: 'Contraseña'),
+              obscureText: true,
+            ),
+            const SizedBox(height: 20),
+            _loading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
                   onPressed: _login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 12, 248, 4),
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text('Ingresar'),
+                  child: const Text('Entrar'),
                 ),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );

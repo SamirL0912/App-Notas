@@ -1,13 +1,16 @@
+import 'package:app_notas/models/model_user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Success extends StatelessWidget {
-  final Color green = Color.fromARGB(255, 234, 255, 235);
-  final Color peach = Color.fromARGB(255, 255, 213, 204);
-  final Color blue = Color.fromARGB(255, 214, 233, 255);
-  final Color beige = Color.fromARGB(255, 248, 241, 220);
+class SuccessView extends StatelessWidget {
+  final User user; // ✅ Recibimos al usuario
 
-  Success({super.key});
+  final Color green = const Color.fromARGB(255, 234, 255, 235);
+  final Color peach = const Color.fromARGB(255, 255, 213, 204);
+  final Color blue = const Color.fromARGB(255, 214, 233, 255);
+  final Color beige = const Color.fromARGB(255, 248, 241, 220);
+
+  const SuccessView({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class Success extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           title: Text(
-            'NoteBook',
+            'NoteBook de ${user.username}',
             style: GoogleFonts.roboto(
               textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -34,12 +37,12 @@ class Success extends StatelessWidget {
           backgroundColor: const Color(0xFFFFFEFE),
           actions: [
             IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               color: Colors.black,
               onPressed: () {},
             ),
             IconButton(
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
               color: Colors.black,
               onPressed: () {},
             ),
@@ -49,10 +52,7 @@ class Success extends StatelessWidget {
             indicatorWeight: 3,
             labelColor: Colors.black,
             unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(text: 'Todo'),
-              Tab(text: 'Importantes'),
-            ],
+            tabs: [Tab(text: 'Todo'), Tab(text: 'Importantes')],
           ),
         ),
         body: Stack(
@@ -67,7 +67,7 @@ class Success extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Últimas notas',
+                          'Hola ${user.username}, estas son tus notas',
                           style: GoogleFonts.roboto(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -85,42 +85,42 @@ class Success extends StatelessWidget {
                       ],
                     ),
                     noteItem(Icons.work, green),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     noteItem(Icons.favorite, peach),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     noteItem(Icons.lightbulb, blue),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         categoryBox('Ideas', blue, Icons.lightbulb),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         categoryBox('Recipes', beige, Icons.restaurant),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         categoryBox('Work', green, Icons.work),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         categoryBox('Personal', peach, Icons.favorite),
                       ],
                     ),
-                    SizedBox(height: 120), // Espacio extra para no tapar con el botón
+                    const SizedBox(height: 120),
                   ],
                 ),
               ),
             ),
             Positioned(
-              bottom: 30, // << Ajusta la altura aquí
+              bottom: 30,
               left: 0,
               right: 0,
               child: Center(
                 child: FloatingActionButton(
-                  backgroundColor: Color.fromARGB(255, 149, 224, 149),
+                  backgroundColor: const Color.fromARGB(255, 149, 224, 149),
                   onPressed: () {},
-                  child: Icon(Icons.add, color: Colors.white),
+                  child: const Icon(Icons.add, color: Colors.white),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -137,7 +137,7 @@ class Success extends StatelessWidget {
     return Container(
       width: 160,
       height: 80,
-      padding: EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(16),
@@ -161,25 +161,21 @@ class Success extends StatelessWidget {
   Widget noteItem(IconData icon, Color color) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.black12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
-            offset: Offset(2, 2),
-          ),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(2, 2)),
         ],
       ),
       child: Row(
         children: [
           Icon(icon, color: color, size: 26),
-          SizedBox(width: 16),
-          Spacer(),
-          Icon(Icons.edit, size: 20, color: Colors.grey),
+          const SizedBox(width: 16),
+          const Spacer(),
+          const Icon(Icons.edit, size: 20, color: Colors.grey),
         ],
       ),
     );

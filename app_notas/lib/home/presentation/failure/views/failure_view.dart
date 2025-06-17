@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: ErrorView(),
-    debugShowCheckedModeBanner: false,
-  ));
-}
-
 class ErrorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,14 +11,13 @@ class ErrorView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            
               Icon(
                 Icons.error_outline,
                 color: const Color.fromARGB(255, 159, 207, 162),
                 size: 100,
               ),
               SizedBox(height: 30),
-              
+
               Text(
                 '¡Ups! Algo salió mal',
                 style: TextStyle(
@@ -36,17 +28,16 @@ class ErrorView extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12),
-              
+
               Text(
                 'Ocurrió un error inesperado al cargar los datos.\nPor favor, intenta de nuevo.',
                 style: TextStyle(fontSize: 16, color: Colors.black54),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 30),
-              
+
               ElevatedButton.icon(
-                onPressed: () {
-                },
+                onPressed: () {},
                 icon: Icon(Icons.refresh),
                 label: Text('Reintentar'),
                 style: ElevatedButton.styleFrom(
