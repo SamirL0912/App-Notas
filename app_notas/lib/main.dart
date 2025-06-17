@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:app_notas/home/presentation/failure/views/failure_view.dart';
-import 'package:app_notas/home/presentation/failure/views/loading_view.dart';
 import 'package:app_notas/home/presentation/failure/views/initial_view.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: LoginView (),
-    );
+    return const MaterialApp(home: LoginView());
   }
 }
