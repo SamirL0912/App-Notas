@@ -18,14 +18,14 @@ class ErrorView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Ícono decorativo
+            
               Icon(
                 Icons.error_outline,
                 color: const Color.fromARGB(255, 44, 247, 4),
                 size: 100,
               ),
               SizedBox(height: 30),
-              // Título
+              
               Text(
                 '¡Ups! Algo salió mal',
                 style: TextStyle(
@@ -36,17 +36,16 @@ class ErrorView extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12),
-              // Mensaje descriptivo
+              
               Text(
                 'Ocurrió un error inesperado al cargar los datos.\nPor favor, intenta de nuevo.',
                 style: TextStyle(fontSize: 16, color: Colors.black54),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 30),
-              // Botón de reintento
+              
               ElevatedButton.icon(
                 onPressed: () {
-                  // Acción al presionar (por ejemplo: recargar la app)
                 },
                 icon: Icon(Icons.refresh),
                 label: Text('Reintentar'),
