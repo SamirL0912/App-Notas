@@ -7,7 +7,7 @@ void main() {
   ));
 }
 
-class ErrorView extends StatelessWidget {
+class ErrorView  extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
