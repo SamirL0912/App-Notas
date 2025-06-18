@@ -87,11 +87,11 @@ class _SuccessViewState extends State<SuccessView> {
                         ),
                       ],
                     ),
-                    noteItem(Icons.work, green),
+                    noteItem(Icons.work, green,"Work","informe de trabajo", green),
                     const SizedBox(height: 12),
-                    noteItem(Icons.favorite, peach),
+                    noteItem(Icons.favorite, peach,"Personal","recomendaciones de libros", peach),
                     const SizedBox(height: 12),
-                    noteItem(Icons.lightbulb, blue),
+                    noteItem(Icons.lightbulb, blue,"Ideas","manualidades", blue),
                     const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -163,7 +163,7 @@ class _SuccessViewState extends State<SuccessView> {
     );
   }
 
-  Widget noteItem(IconData icon, Color color) {
+  Widget noteItem(IconData icon, Color color, String text,String title, Color titleColor) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -175,12 +175,37 @@ class _SuccessViewState extends State<SuccessView> {
           BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(2, 2)),
         ],
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: color, size: 26),
-          const SizedBox(width: 16),
-          const Spacer(),
-          const Icon(Icons.edit, size: 20, color: Colors.grey),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, color: color),
+                  const SizedBox(width: 8),
+                  Text(
+                    title,
+                    style: GoogleFonts.roboto(
+                      color: titleColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.edit, size: 20, color: Colors.grey),
+            ], 
+          ),
+         Text(
+            text,
+            style: GoogleFonts.roboto(
+              color: Color.fromARGB(255, 0, 0, 0),
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );
