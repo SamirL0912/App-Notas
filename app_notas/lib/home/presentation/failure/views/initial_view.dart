@@ -1,6 +1,9 @@
+import 'package:app_notas/bloc/home_bloc.dart';
+import 'package:app_notas/home/presentation/failure/views/failure_view.dart';
 import 'package:app_notas/home/presentation/failure/views/success_view.dart';
-import 'package:app_notas/models/autenticacion.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -12,67 +15,116 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _authService = AuthService();
-
-  bool _loading = false;
-  String? _error;
-
-  void _login() async {
-    setState(() {
-      _loading = true;
-      _error = null;
-    });
-
-    try {
-      final user = await _authService.login(
-        _usernameController.text,
-        _passwordController.text,
-      );
-
-      if (user != null && mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => SuccessView(user: user)),
-        );
-      }
-    } catch (e) {
-      setState(() {
-        _error = e.toString().replaceAll("Exception: ", "");
-      });
-    } finally {
-      setState(() {
-        _loading = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            if (_error != null)
-              Text(_error!, style: const TextStyle(color: Colors.red)),
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Usuario'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            _loading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                  onPressed: _login,
-                  child: const Text('Entrar'),
+      backgroundColor: const Color(0xFFEFEFEF),
+      body: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeLoading) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) => const Center(child: CircularProgressIndicator()),
+            );
+          } else if (state is HomeSuccess) {
+            Navigator.of(context).pop(); // Cierra el loader
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => SuccessView(user: state.user)),
+            );
+          } else if (state is HomeFailure) {
+            Navigator.of(context).pop(); // Cierra el loader
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => ErrorView(message: state.message),
+              ),
+            );
+          }
+        },
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Iniciar sesión',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo,
+                  ),
                 ),
-          ],
+                const SizedBox(height: 40),
+                TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    labelText: 'Usuario',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Contraseña',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigo,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {
+                      final username = _usernameController.text.trim();
+                      final password = _passwordController.text.trim();
+
+                      if (username.isNotEmpty && password.isNotEmpty) {
+                        context.read<HomeBloc>().add(
+                          LoginSubmitted(
+                            username: username,
+                            password: password,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Por favor, completa todos los campos',
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Entrar',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
