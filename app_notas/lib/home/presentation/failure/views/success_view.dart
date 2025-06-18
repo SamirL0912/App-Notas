@@ -119,7 +119,9 @@ class SuccessView extends StatelessWidget {
               child: Center(
                 child: FloatingActionButton(
                   backgroundColor: const Color.fromARGB(255, 149, 224, 149),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/data_view');
+                  },
                   child: const Icon(Icons.add, color: Colors.white),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
