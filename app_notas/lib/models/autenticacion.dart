@@ -14,7 +14,8 @@ class AuthService {
 
       for (var userJson in data) {
         final user = User.fromJson(userJson);
-        if (user.username == username && user.password == password) {
+        if (user.username == username &&
+            user.password == int.tryParse(password)) {
           return user; // Autenticado correctamente
         }
       }

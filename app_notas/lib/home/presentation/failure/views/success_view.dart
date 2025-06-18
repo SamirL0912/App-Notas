@@ -2,22 +2,23 @@ import 'package:app_notas/models/model_user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SuccessView extends StatelessWidget {
-  final User user; // ✅ Recibimos al usuario
+class SuccessView extends StatefulWidget {
+  final User user;
 
+  const SuccessView({super.key, required this.user});
+
+  @override
+  State<SuccessView> createState() => _SuccessViewState();
+}
+
+class _SuccessViewState extends State<SuccessView> {
   final Color green = const Color.fromARGB(255, 234, 255, 235);
   final Color peach = const Color.fromARGB(255, 255, 213, 204);
   final Color blue = const Color.fromARGB(255, 214, 233, 255);
   final Color beige = const Color.fromARGB(255, 248, 241, 220);
 
-  const SuccessView({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
-    return success();
-  }
-
-  DefaultTabController success() {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -25,7 +26,7 @@ class SuccessView extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           title: Text(
-            'NoteBook de ${user.username}',
+            'NoteBook de ${widget.user.username}',
             style: GoogleFonts.roboto(
               textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -44,7 +45,9 @@ class SuccessView extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.add),
               color: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/data_view');
+              },
             ),
           ],
           bottom: const TabBar(
@@ -67,7 +70,7 @@ class SuccessView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Hola ${user.username}, estas son tus notas',
+                          'Hola ${widget.user.username}, estas son tus notas',
                           style: GoogleFonts.roboto(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ErrorView extends StatelessWidget {
+  final String message;
+
+  const ErrorView({super.key, required this.message});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,38 +15,50 @@ class ErrorView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.error_outline,
-                color: const Color.fromARGB(255, 159, 207, 162),
+                color: Color.fromARGB(255, 159, 207, 162),
                 size: 100,
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
-              Text(
+              const Text(
                 '¡Ups! Algo salió mal',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 159, 207, 162),
+                  color: Color.fromARGB(255, 159, 207, 162),
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
 
               Text(
-                'Ocurrió un error inesperado al cargar los datos.\nPor favor, intenta de nuevo.',
-                style: TextStyle(fontSize: 16, color: Colors.black54),
+                message,
+                style: const TextStyle(fontSize: 16, color: Colors.black54),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               ElevatedButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.refresh),
-                label: Text('Reintentar'),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/',
+                    (route) => false,
+                  );
+                },
+                icon: const Icon(Icons.refresh, color: Colors.white),
+                label: const Text(
+                  'Reintentar',
+                  style: TextStyle(color: Colors.white),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 159, 207, 162),
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
                 ),
               ),
             ],
