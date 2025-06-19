@@ -16,7 +16,7 @@ class AuthService {
         final user = User.fromJson(userJson);
         if (user.username == username &&
             user.password == int.tryParse(password)) {
-          return user; // Autenticado correctamente
+          return user;
         }
       }
 

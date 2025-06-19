@@ -1,5 +1,5 @@
-import 'package:app_notas/models/autenticacion.dart';
 import 'package:app_notas/models/model_user.dart';
+import 'package:app_notas/services/autenticacion.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -20,6 +20,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoading());
 
     try {
+      await Future.delayed(const Duration(seconds: 2));
+
       final user = await _authService.login(event.username, event.password);
       emit(HomeSuccess(user!));
     } catch (e) {

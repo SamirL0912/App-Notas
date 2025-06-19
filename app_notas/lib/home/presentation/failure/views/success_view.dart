@@ -1,5 +1,7 @@
+import 'package:app_notas/bloc/notas_bloc.dart';
 import 'package:app_notas/models/model_user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SuccessView extends StatefulWidget {
@@ -26,7 +28,7 @@ class _SuccessViewState extends State<SuccessView> {
         appBar: AppBar(
           elevation: 0,
           title: Text(
-            'NoteBook de ${widget.user.username}',
+            'Notas de ${widget.user.username}',
             style: GoogleFonts.roboto(
               textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -77,35 +79,64 @@ class _SuccessViewState extends State<SuccessView> {
                             color: Colors.black,
                           ),
                         ),
-                        Text(
-                          'Ver todo',
-                          style: GoogleFonts.roboto(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.green,
-                          ),
-                        ),
+                        //Text(
+                        //'Ver todo',
+                        //style: GoogleFonts.roboto(
+                        //fontSize: 14,
+                        //fontWeight: FontWeight.w500,
+                        //color: Colors.green,
+                        //),
+                        //),
                       ],
                     ),
-                    noteItem(Icons.work, green),
-                    const SizedBox(height: 12),
-                    noteItem(Icons.favorite, peach),
-                    const SizedBox(height: 12),
-                    noteItem(Icons.lightbulb, blue),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
+                    BlocBuilder<NotasBloc, NotasState>(
+                      builder: (context, state) {
+                        if (state is NotasCargadas && state.notas.isNotEmpty) {
+                          return Column(
+                            children:
+                                state.notas.map((nota) {
+                                  return Column(
+                                    children: [
+                                      noteItem(
+                                        Icons.note,
+                                        green,
+                                        nota.titulo,
+                                        nota.contenido,
+                                      ),
+                                      const SizedBox(height: 12),
+                                    ],
+                                  );
+                                }).toList(),
+                          );
+                        } else {
+                          return const Text(
+                            'No hay notas aún.',
+                            style: TextStyle(color: Colors.grey),
+                          );
+                        }
+                      },
+                    ),
+
+                    //noteItem(Icons.work, green, 'Trabajo'),
+                    //const SizedBox(height: 12),
+                    //noteItem(Icons.favorite, peach, 'Personal'),
+                    //const SizedBox(height: 12),
+                    //noteItem(Icons.lightbulb, blue, 'Ideas'),
+                    //const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         categoryBox('Ideas', blue, Icons.lightbulb),
                         const SizedBox(width: 8),
-                        categoryBox('Recipes', beige, Icons.restaurant),
+                        categoryBox('Recetas', beige, Icons.restaurant),
                       ],
                     ),
                     const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        categoryBox('Work', green, Icons.work),
+                        categoryBox('Trabajo', green, Icons.work),
                         const SizedBox(width: 8),
                         categoryBox('Personal', peach, Icons.favorite),
                       ],
@@ -163,25 +194,52 @@ class _SuccessViewState extends State<SuccessView> {
     );
   }
 
-  Widget noteItem(IconData icon, Color color) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.black12),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(2, 2)),
-        ],
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: color, size: 26),
-          const SizedBox(width: 16),
-          const Spacer(),
-          const Icon(Icons.edit, size: 20, color: Colors.grey),
-        ],
+  Widget noteItem(IconData icon, Color color, String titulo, String contenido) {
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder:
+              (_) => AlertDialog(
+                title: Text(titulo),
+                content: Text(contenido),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cerrar'),
+                  ),
+                ],
+              ),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.black12),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(2, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: color, size: 26),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                titulo,
+                style: const TextStyle(fontSize: 16, color: Colors.black87),
+              ),
+            ),
+            const Icon(Icons.heart_broken, size: 20, color: Colors.grey),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:app_notas/bloc/home_bloc.dart';
 import 'package:app_notas/home/presentation/failure/views/failure_view.dart';
 import 'package:app_notas/home/presentation/failure/views/success_view.dart';
+import 'package:app_notas/home/presentation/failure/views/loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,15 +27,15 @@ class _LoginViewState extends State<LoginView> {
             showDialog(
               context: context,
               barrierDismissible: false,
-              builder: (_) => const Center(child: CircularProgressIndicator()),
+              builder: (_) => LoadingView(), // 👈 Vista de carga personalizada
             );
           } else if (state is HomeSuccess) {
-            Navigator.of(context).pop(); // Cierra el loader
+            Navigator.of(context).pop(); // Cierra el loading
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (_) => SuccessView(user: state.user)),
             );
           } else if (state is HomeFailure) {
-            Navigator.of(context).pop(); // Cierra el loader
+            Navigator.of(context).pop(); // Cierra el loading
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => ErrorView(message: state.message),
@@ -49,8 +50,8 @@ class _LoginViewState extends State<LoginView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Iniciar sesión',
-                  style: GoogleFonts.montserrat(
+                  'Iniciar Sesión',
+                  style: GoogleFonts.poppins(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.indigo,
@@ -81,7 +82,7 @@ class _LoginViewState extends State<LoginView> {
                     fillColor: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 25),
                 SizedBox(
                   width: double.infinity,
                   height: 48,
@@ -89,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.indigo,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     onPressed: () {
