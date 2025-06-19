@@ -20,22 +20,22 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEFEFEF),
+      backgroundColor: const Color(0xFFFFF8DC),
       body: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is HomeLoading) {
             showDialog(
               context: context,
               barrierDismissible: false,
-              builder: (_) => LoadingView(), // 👈 Vista de carga personalizada
+              builder: (_) => LoadingView(),
             );
           } else if (state is HomeSuccess) {
-            Navigator.of(context).pop(); // Cierra el loading
+            Navigator.of(context).pop();
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (_) => SuccessView(user: state.user)),
             );
           } else if (state is HomeFailure) {
-            Navigator.of(context).pop(); // Cierra el loading
+            Navigator.of(context).pop();
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => ErrorView(message: state.message),
@@ -45,28 +45,30 @@ class _LoginViewState extends State<LoginView> {
         },
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Icon(Icons.note_alt, size: 80, color: Colors.brown),
+                const SizedBox(height: 10),
                 Text(
-                  'Iniciar Sesión',
-                  style: GoogleFonts.poppins(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.indigo,
+                  'Bloc de Notas',
+                  style: GoogleFonts.permanentMarker(
+                    fontSize: 32,
+                    color: Colors.brown.shade700,
                   ),
                 ),
                 const SizedBox(height: 40),
                 TextField(
                   controller: _usernameController,
                   decoration: InputDecoration(
-                    labelText: 'Usuario',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    hintText: 'Usuario',
+                    hintStyle: GoogleFonts.poppins(color: Colors.grey.shade700),
                     filled: true,
                     fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.brown),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -74,52 +76,50 @@ class _LoginViewState extends State<LoginView> {
                   controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Contraseña',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    hintText: 'Contraseña',
+                    hintStyle: GoogleFonts.poppins(color: Colors.grey.shade700),
                     filled: true,
                     fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.brown),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 25),
-                SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.brown.shade400,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 14,
                     ),
-                    onPressed: () {
-                      final username = _usernameController.text.trim();
-                      final password = _passwordController.text.trim();
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () {
+                    final username = _usernameController.text.trim();
+                    final password = _passwordController.text.trim();
 
-                      if (username.isNotEmpty && password.isNotEmpty) {
-                        context.read<HomeBloc>().add(
-                          LoginSubmitted(
-                            username: username,
-                            password: password,
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Por favor, completa todos los campos',
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                    child: Text(
-                      'Entrar',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
+                    if (username.isNotEmpty && password.isNotEmpty) {
+                      context.read<HomeBloc>().add(
+                        LoginSubmitted(username: username, password: password),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Por favor, completa todos los campos'),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(
+                    'Entrar',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),

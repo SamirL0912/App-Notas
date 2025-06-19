@@ -17,7 +17,7 @@ class ErrorView extends StatelessWidget {
             children: [
               const Icon(
                 Icons.error_outline,
-                color: Color.fromARGB(255, 159, 207, 162),
+                color: Color.fromARGB(183, 151, 104, 50),
                 size: 100,
               ),
               const SizedBox(height: 30),
@@ -27,7 +27,7 @@ class ErrorView extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 159, 207, 162),
+                  color: Color.fromARGB(183, 151, 104, 50),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -48,13 +48,16 @@ class ErrorView extends StatelessWidget {
                     (route) => false,
                   );
                 },
-                icon: const Icon(Icons.refresh, color: Colors.white),
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Color.fromARGB(255, 255, 253, 253),
+                ),
                 label: const Text(
                   'Reintentar',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Color.fromARGB(255, 255, 253, 253)),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 159, 207, 162),
+                  backgroundColor: const Color.fromARGB(183, 151, 104, 50),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                     vertical: 12,
