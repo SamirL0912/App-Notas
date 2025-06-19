@@ -28,7 +28,7 @@ class _SuccessViewState extends State<SuccessView> {
         appBar: AppBar(
           elevation: 0,
           title: Text(
-            'Notas de ${widget.user.username}',
+            'Bloc De Notas De ${widget.user.username}',
             style: GoogleFonts.roboto(
               textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -152,7 +152,7 @@ class _SuccessViewState extends State<SuccessView> {
               right: 0,
               child: Center(
                 child: FloatingActionButton(
-                  backgroundColor: const Color.fromARGB(255, 149, 224, 149),
+                  backgroundColor: const Color.fromARGB(183, 128, 88, 43),
                   onPressed: () {
                     Navigator.pushNamed(context, '/data_view');
                   },

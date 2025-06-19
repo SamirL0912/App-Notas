@@ -19,7 +19,7 @@ class LoadingView extends StatelessWidget {
               'Cargando...',
               style: TextStyle(
                 fontSize: 16,
-                color: const Color.fromARGB(255, 5, 5, 5),
+                color: const Color.fromARGB(255, 247, 246, 246),
               ),
             ),
           ],
