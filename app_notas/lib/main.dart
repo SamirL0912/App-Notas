@@ -1,6 +1,7 @@
 import 'package:app_notas/bloc/home_bloc.dart';
-import 'package:app_notas/home/presentation/failure/views/datos.dart';
+import 'package:app_notas/bloc/notas_bloc.dart';
 import 'package:app_notas/home/presentation/failure/views/initial_view.dart';
+import 'package:app_notas/home/presentation/failure/views/nota_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,8 +15,11 @@ class NotasApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomeBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => HomeBloc()),
+        BlocProvider(create: (_) => NotasBloc()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'App de Notas',
@@ -27,7 +31,7 @@ class NotasApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const LoginView(),
-          '/data_view': (context) => const DataView(), // 👈 aquí se registra
+          '/data_view': (context) => NotaNuevaScreen(),
         },
       ),
     );
